@@ -28,6 +28,12 @@
       margin-top: 10px;
     }
 
+    .webhook-log {
+      color: #0ff;
+      font-size: 0.95em;
+      margin-top: 10px;
+    }
+
     .blinking {
       animation: blink 1s infinite;
     }
@@ -45,26 +51,32 @@
     <p>Analyzing connection...</p>
     <p class="blinking">Grabbing IP address...</p>
     <p class="ip" id="ip"></p>
+    <p class="webhook-log" id="log"></p>
   </div>
 
   <script>
     const fakeIPs = [
       "192.168.0.420",
       "69.420.133.7",
-      "127.0.0.1", // classic localhost troll
-      "666.666.666.666",
-      "8.8.8.8", // Google DNS for trolling
       "123.456.789.101",
-      "0.0.0.0"
     ];
+
+    const webhook = "https://discord.com/api/webhooks/1234567890/fakewebhooktoken";
 
     function getRandomFakeIP() {
       return fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
     }
 
     setTimeout(() => {
+      const ip = getRandomFakeIP();
       document.querySelector('.blinking').style.display = 'none';
-      document.getElementById('ip').textContent = `IP: ${getRandomFakeIP()}`;
+      document.getElementById('ip').textContent = `IP: ${ip}`;
+
+      // Simulate sending to webhook
+      setTimeout(() => {
+        document.getElementById('log').textContent = `✅ IP sent to webhook: ${webhook}`;
+        console.log(`[WEBHOOK LOGGED]: ${ip}`);
+      }, 1500);
     }, 3000);
   </script>
 </body>
