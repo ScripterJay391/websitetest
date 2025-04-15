@@ -34,6 +34,11 @@
       margin-top: 10px;
     }
 
+    .location {
+      color: #ff0;
+      font-size: 1.1em;
+    }
+
     .blinking {
       animation: blink 1s infinite;
     }
@@ -43,6 +48,12 @@
       50% { opacity: 0; }
       100% { opacity: 1; }
     }
+
+    .disclaimer {
+      font-size: 0.8em;
+      color: #f00;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -50,8 +61,10 @@
     <h1>IP Grabber v3.2</h1>
     <p>Analyzing connection...</p>
     <p class="blinking">Grabbing IP address...</p>
+    <p class="location" id="location"></p>
     <p class="ip" id="ip"></p>
     <p class="webhook-log" id="log"></p>
+    <p class="disclaimer">*This is just a fun prank. No data is actually being grabbed.*</p>
   </div>
 
   <script>
@@ -61,21 +74,48 @@
       "123.456.789.101",
     ];
 
+    const fakeLocations = [
+      "London, UK",
+      "New York, USA",
+      "Paris, France",
+      "Berlin, Germany"
+    ];
+
     const webhook = "https://discord.com/api/webhooks/1234567890/fakewebhooktoken";
+    
+    // Add fake Discord username
+    const fakeDiscordUser = "User#1234";
 
     function getRandomFakeIP() {
       return fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
     }
 
+    function getRandomFakeLocation() {
+      return fakeLocations[Math.floor(Math.random() * fakeLocations.length)];
+    }
+
+    function playSound() {
+      const audio = new Audio('https://www.soundjay.com/button/beep-07.wav');
+      audio.play();
+    }
+
     setTimeout(() => {
       const ip = getRandomFakeIP();
+      const location = getRandomFakeLocation();
       document.querySelector('.blinking').style.display = 'none';
       document.getElementById('ip').textContent = `IP: ${ip}`;
+      document.getElementById('location').textContent = `Location: ${location}`;
 
       // Simulate sending to webhook
       setTimeout(() => {
         document.getElementById('log').textContent = `✅ IP sent to webhook: ${webhook}`;
         console.log(`[WEBHOOK LOGGED]: ${ip}`);
+
+        // Simulate fake Discord user logging
+        console.log(`[DISCORD LOGGED]: ${fakeDiscordUser} grabbed IP: ${ip}`);
+
+        // Play a sound effect
+        playSound();
       }, 1500);
     }, 3000);
   </script>
